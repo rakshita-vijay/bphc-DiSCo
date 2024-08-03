@@ -1,0 +1,4 @@
+indirection operator: * before a pointer
+segmentation fault: memory overflow and accessing memory out-of-bounds
+debugging
+profiler: finds unoptimized code
