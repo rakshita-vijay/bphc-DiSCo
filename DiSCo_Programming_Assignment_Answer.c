@@ -9,21 +9,12 @@ int main () {
   int inp_ini[2];
   fscanf(file_ptr, "%i %i\n", &inp_ini[0], &inp_ini[1]);
 
-  // int m_dependencies_final[inp_ini[1]][2]; // number of lines after the first line, of format "%i %i"
-
   int m_dependencies_final_1st_indices[inp_ini[1]];
   int m_dependencies_final_2nd_indices[inp_ini[1]];
 
   for (int index = 0; index < inp_ini[1]; index++) {
     fscanf(file_ptr, "%i %i\n", &m_dependencies_final_1st_indices[index], &m_dependencies_final_2nd_indices[index]);
   }
-
-  // for (int index = 0; index < inp_ini[1]; index++) {
-  //   m_dependencies_final_1st_indices[index] = m_dependencies_final[index][0];
-  //   // printf("m_dependencies_final_1st_indices: %i \n", m_dependencies_final_1st_indices[index]);
-  //   m_dependencies_final_2nd_indices[index] = m_dependencies_final[index][1];
-  //   // printf("m_dependencies_final_2nd_indices: %i \n", m_dependencies_final_2nd_indices[index]);
-  // }
 
   int arr_after_kahn_algo_to_print[inp_ini[0]][inp_ini[0]]; // square matrix of N rows and N columns
 
