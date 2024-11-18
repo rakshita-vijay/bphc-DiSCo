@@ -6,88 +6,90 @@ int main () {
   FILE *file_ptr;
   file_ptr = fopen("a.txt", "r");
 
-  int inp_ini[2];
-  fscanf(file_ptr, "%i %i\n", &inp_ini[0], &inp_ini[1]);
+  int input_initial[2];
+  fscanf(file_ptr, "%i %i\n", &input_initial[0], &input_initial[1]);
 
-  int m_dependencies_final_1st_indices[inp_ini[1]];
-  int m_dependencies_final_2nd_indices[inp_ini[1]];
+  int m_dependencies_final_1st_indices[input_initial[1]];
+  int m_dependencies_final_2nd_indices[input_initial[1]];
 
-  for (int index = 0; index < inp_ini[1]; index++) {
+  for (int index = 0; index < input_initial[1]; index++) {
     fscanf(file_ptr, "%i %i\n", &m_dependencies_final_1st_indices[index], &m_dependencies_final_2nd_indices[index]);
   }
 
-  int arr_after_kahn_algo_to_print[inp_ini[0]][inp_ini[0]]; // square matrix of N rows and N columns
+  fclose(file_ptr);
+
+  int arr_after_kahn_algo_to_print[input_initial[0]][input_initial[0]]; // square matrix of N rows and N columns
 
   int impossible_step = -1;
 
-  for (int outer_index = 0; outer_index < inp_ini[0]; outer_index++) {
-    for (int inner_index = 0; inner_index < inp_ini[0]; inner_index++) {
+  for (int outer_index = 0; outer_index < input_initial[0]; outer_index++) {
+    for (int inner_index = 0; inner_index < input_initial[0]; inner_index++) {
       arr_after_kahn_algo_to_print[outer_index][inner_index] = impossible_step;
     }
   }
 
-  int in_degrees[inp_ini[0]];
-  for(int initializer = 0; initializer < inp_ini[0]; initializer++){
+  int in_degrees[input_initial[0]];
+  for(int initializer = 0; initializer < input_initial[0]; initializer++){
     in_degrees[initializer] = 0;
   }
 
-  for(int count = 0; count < inp_ini[1]; count++) {
+  for(int count = 0; count < input_initial[1]; count++) {
     in_degrees[m_dependencies_final_2nd_indices[count] - 1]++;
   }
 
-  int mySize = inp_ini[1];
+  int my_size = input_initial[1];
 
-  int adj_matrix[mySize][mySize];
-  for(int i = 0; i < mySize; i++) {
-    for(int j = 0; j < mySize; j++) {
+  int adj_matrix[my_size][my_size];
+  for(int i = 0; i < my_size; i++) {
+    for(int j = 0; j < my_size; j++) {
       adj_matrix[i][j] = 0;
     }
   }
 
-  bool visited[mySize];
-  int roundSize[mySize];
+  bool visited[my_size];
+  int round_size[my_size];
 
-  for(int i = 0; i < mySize; i++) {
+  for(int i = 0; i < my_size; i++) {
     adj_matrix[m_dependencies_final_1st_indices[i] - 1][m_dependencies_final_2nd_indices[i] - 1] = 1;
     visited[i] = false;
-    roundSize[i] = 0;
+    round_size[i] = 0;
   }
 
-  int indexCount = 0;
+  int index_count = 0;
   while(1) {
-    int currentRound[mySize];
-    int currentRoundLength = 0;
-    for(int index = 0; index < mySize; index++) {
+    int current_round[my_size];
+    int current_round_length = 0;
+    for(int index = 0; index < my_size; index++) {
       if((in_degrees[index] == 0) && (visited[index] == false)) {
-        currentRound[currentRoundLength++] = index + 1;
+        current_round[current_round_length++] = index + 1;
         visited[index] = true;
       }
     }
 
-    if(currentRoundLength == 0) {
+    if(current_round_length == 0) {
       break;
     }
 
-    for(int outer_count = 0; outer_count < (currentRoundLength - 1); outer_count++) {
-      for(int inner_count = 0; inner_count < (currentRoundLength - outer_count - 1); outer_count++) {
-        if(currentRound[inner_count] > currentRound[inner_count + 1]) {
-          int holder = currentRound[inner_count + 1];
-          currentRound[inner_count + 1] = currentRound[inner_count];
-          currentRound[inner_count] = holder;
+    for(int outer_count = 0; outer_count < (current_round_length - 1); outer_count++) {
+      for(int inner_count = 0; inner_count < (current_round_length - outer_count - 1); outer_count++) {
+        if(current_round[inner_count] > current_round[inner_count + 1]) {
+          int holder = current_round[inner_count + 1];
+          current_round[inner_count + 1] = current_round[inner_count];
+          current_round[inner_count] = holder;
         }
       }
     }
 
-    roundSize[indexCount] = currentRoundLength;
+    round_size[index_count] = current_round_length;
 
-    for(int index = 0; index < currentRoundLength; index++) {
-      arr_after_kahn_algo_to_print[indexCount][index] = currentRound[index];
+    for(int index = 0; index < current_round_length; index++) {
+      arr_after_kahn_algo_to_print[index_count][index] = current_round[index];
     }
 
-    indexCount++;
-    for(int count_check = 0; count_check < currentRoundLength; count_check++) {
-      int placeholder = currentRound[count_check] - 1;
-      for(int check_inner = 0; check_inner < mySize; check_inner++) {
+    index_count++;
+    for(int count_check = 0; count_check < current_round_length; count_check++) {
+      int placeholder = current_round[count_check] - 1;
+      for(int check_inner = 0; check_inner < my_size; check_inner++) {
         if(adj_matrix[placeholder][check_inner] == 1) {
           in_degrees[check_inner]--;
         }
@@ -95,15 +97,23 @@ int main () {
     }
   }
 
-  printf("%d\n", indexCount);
-  for (int outer_index = 0; outer_index < indexCount; outer_index++) {
-    for (int inner_index = 0; inner_index < roundSize[outer_index]; inner_index++) {
+  FILE *file_ptr_2;
+  file_ptr_2 = fopen("b.txt", "w");
+
+  fprintf(file_ptr_2, "%d\n", index_count);
+
+  // printf("%d\n", index_count);
+  for (int outer_index = 0; outer_index < index_count; outer_index++) {
+    for (int inner_index = 0; inner_index < round_size[outer_index]; inner_index++) {
       if (arr_after_kahn_algo_to_print[outer_index][inner_index] != impossible_step) {
-        printf("%i ", arr_after_kahn_algo_to_print[outer_index][inner_index]);
+        // printf("%i ", arr_after_kahn_algo_to_print[outer_index][inner_index]);
+
+        fprintf(file_ptr_2, "%i ", arr_after_kahn_algo_to_print[outer_index][inner_index]);
       }
     }
-    printf("\n");
+    // printf("\n");
+    fprintf(file_ptr_2, " \n");
   }
 
-  fclose(file_ptr);
+  fclose(file_ptr_2);
 }
