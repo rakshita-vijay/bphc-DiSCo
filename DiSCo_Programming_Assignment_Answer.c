@@ -35,14 +35,6 @@ int main () {
     in_degrees[m_dependencies_final_2nd_indices[count] - 1]++;
   }
 
-  // printf("** \n");
-
-  // for (int index_for_in_degrees = 0; index_for_in_degrees < inp_ini[0]; index_for_in_degrees++) {
-  //   printf("%i ", in_degrees[index_for_in_degrees]);
-  // }
-
-  // printf("\n** \n \n");
-
   int mySize = inp_ini[1];
 
   int adj_matrix[mySize][mySize];
