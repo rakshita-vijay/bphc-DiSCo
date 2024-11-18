@@ -102,16 +102,12 @@ int main () {
 
   fprintf(file_ptr_2, "%d\n", index_count);
 
-  // printf("%d\n", index_count);
   for (int outer_index = 0; outer_index < index_count; outer_index++) {
     for (int inner_index = 0; inner_index < round_size[outer_index]; inner_index++) {
       if (arr_after_kahn_algo_to_print[outer_index][inner_index] != impossible_step) {
-        // printf("%i ", arr_after_kahn_algo_to_print[outer_index][inner_index]);
-
         fprintf(file_ptr_2, "%i ", arr_after_kahn_algo_to_print[outer_index][inner_index]);
       }
     }
-    // printf("\n");
     fprintf(file_ptr_2, " \n");
   }
 
