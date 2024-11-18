@@ -82,8 +82,8 @@ int main () {
 
     round_size[index_count] = current_round_length;
 
-    for(int index = 0; index < current_round_length; index++) {
-      arr_after_kahn_algo_to_print[index_count][index] = current_round[index];
+    for(int how_many_loops_omg = 0; how_many_loops_omg < current_round_length; how_many_loops_omg++) {
+      arr_after_kahn_algo_to_print[index_count][how_many_loops_omg] = current_round[how_many_loops_omg];
     }
 
     index_count++;
