@@ -90,6 +90,7 @@ int main() {
   // int to_remove_arr[n_treats];
   int *to_remove_arr = NULL;
   to_remove_arr = malloc(n_treats * sizeof(int));
+
   int round_count = 0;
 
   while (flagger(removed_or_not, n_treats)) {
