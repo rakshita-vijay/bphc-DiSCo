@@ -2,14 +2,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-void malloc_a_double_pointer(int **arr, int num_of_rows, int num_of_columns) {
-  arr = malloc(num_of_rows * sizeof(int*));
-  for(int assigning_index = 0; assigning_index < num_of_rows; assigning_index++) {
-    arr[assigning_index] = malloc(num_of_columns * sizeof(int));
-  }
-}
+// void malloc_a_double_pointer(int **arr, int num_of_rows, int num_of_columns) {
+//   arr = malloc(num_of_rows * sizeof(int*));
+//   for(int assigning_index = 0; assigning_index < num_of_rows; assigning_index++) {
+//     arr[assigning_index] = malloc(num_of_columns * sizeof(int));
+//   }
+// }
 
-int flagger(int removed_or_not[], int n_treats) {
+int flagger(int *removed_or_not, int n_treats) {
   int counter = 0;
   for(int index_to_pick = 0; index_to_pick < n_treats; index_to_pick++) {
     if (removed_or_not[index_to_pick] == 1) {
@@ -19,7 +19,7 @@ int flagger(int removed_or_not[], int n_treats) {
   return counter;
 }
 
-void assign_all_0_2d(int num_row, int num_col, int matrix_2d[num_row][num_col]) {
+void assign_all_0_2d(int num_row, int num_col, int **matrix_2d) {
   for(int outer_index = 0; outer_index < num_row; outer_index++) {
     for(int inner_index = 0; inner_index < num_col; inner_index++) {
       matrix_2d[outer_index][inner_index] = 0;
@@ -27,8 +27,8 @@ void assign_all_0_2d(int num_row, int num_col, int matrix_2d[num_row][num_col]) 
   }
 }
 
-void assign_all_1d(int n_treats, int matrix_1d[n_treats], int int_to_assign) {
-  for(int ind = 0; ind < n_treats; ind++) {
+void assign_all_1d(int length_of_arr, int *matrix_1d, int int_to_assign) {
+  for(int ind = 0; ind < length_of_arr; ind++) {
     matrix_1d[ind] = int_to_assign;
   }
 }
@@ -43,8 +43,15 @@ int main() {
   fscanf(file_ptr1, "%i %i\n", &n_treats, &m_dep);
 
   // int m_dependencies_arr[m_dep][2];
-  int **m_dependencies_arr;
-  malloc_a_double_pointer(m_dependencies_arr, m_dep, 2);
+  int **m_dependencies_arr = NULL;
+
+  // malloc_a_double_pointer(m_dependencies_arr, m_dep, 2);
+  m_dependencies_arr = malloc(m_dep * sizeof(int*));
+  for(int assigning_index = 0; assigning_index < m_dep; assigning_index++) {
+    m_dependencies_arr[assigning_index] = malloc(2 * sizeof(int));
+  }
+
+  assign_all_0_2d(m_dep, 2, m_dependencies_arr);
 
   for (int index = 0; index < m_dep; index++) {
     fscanf(file_ptr1, "%i %i\n", &m_dependencies_arr[index][0], &m_dependencies_arr[index][1]);
@@ -54,10 +61,19 @@ int main() {
 
   // int adj_matrix[n_treats][n_treats];
   // int arr_after_kahn_algo_to_print[n_treats][n_treats];
-  int **adj_matrix;
-  int **arr_after_kahn_algo_to_print;
-  malloc_a_double_pointer(adj_matrix, n_treats, n_treats);
-  malloc_a_double_pointer(arr_after_kahn_algo_to_print, n_treats, n_treats);
+  int **adj_matrix = NULL;
+  int **arr_after_kahn_algo_to_print = NULL;
+
+  // malloc_a_double_pointer(adj_matrix, n_treats, n_treats);
+  adj_matrix = malloc(n_treats * sizeof(int*));
+  for(int assigning_index = 0; assigning_index < n_treats; assigning_index++) {
+    adj_matrix[assigning_index] = malloc(n_treats * sizeof(int));
+  }
+  // malloc_a_double_pointer(arr_after_kahn_algo_to_print, n_treats, n_treats);
+  arr_after_kahn_algo_to_print = malloc(n_treats * sizeof(int*));
+  for(int assigning_index = 0; assigning_index < n_treats; assigning_index++) {
+    arr_after_kahn_algo_to_print[assigning_index] = malloc(n_treats * sizeof(int));
+  }
 
   assign_all_0_2d(n_treats, n_treats, adj_matrix);
   assign_all_0_2d(n_treats, n_treats, arr_after_kahn_algo_to_print);
@@ -66,10 +82,14 @@ int main() {
     adj_matrix[m_dependencies_arr[count][0] - 1][m_dependencies_arr[count][1] - 1] = 1;
   }
 
-  int removed_or_not[n_treats];
+  // int removed_or_not[n_treats];
+  int *removed_or_not = NULL;
+  removed_or_not = malloc(n_treats * sizeof(int));
   assign_all_1d(n_treats, removed_or_not, 1);
 
-  int to_remove_arr[n_treats];
+  // int to_remove_arr[n_treats];
+  int *to_remove_arr = NULL;
+  to_remove_arr = malloc(n_treats * sizeof(int));
   int round_count = 0;
 
   while (flagger(removed_or_not, n_treats)) {
