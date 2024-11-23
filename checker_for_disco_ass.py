@@ -125,7 +125,8 @@ def main():
         if run_result.returncode != 0:
             print("Error while running the C program:")
             print(run_result.stderr.decode())
-            continue
+            # continue
+            break
 
         # Generate expected output using Python
         expected_output(n, m, input_file, expected_output_file)
