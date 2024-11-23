@@ -145,4 +145,19 @@ int main() {
   }
 
   fclose(file_ptr2);
+
+  free(m_dependencies_arr);
+  m_dependencies_arr = NULL;
+
+  free(adj_matrix);
+  adj_matrix = NULL;
+
+  free(arr_after_kahn_algo_to_print);
+  arr_after_kahn_algo_to_print = NULL;
+
+  free(removed_or_not);
+  removed_or_not = NULL;
+
+  free(to_remove_arr);
+  to_remove_arr = NULL;
 }
